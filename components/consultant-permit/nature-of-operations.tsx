@@ -31,7 +31,10 @@ interface NatureOfOperationsProps {
   onReturn: () => void;
 }
 
-const NatureOfOperations = ({ onProceed, onReturn }: NatureOfOperationsProps) => {
+const NatureOfOperations = ({
+  onProceed,
+  onReturn,
+}: NatureOfOperationsProps) => {
   const [formData, setFormData] = useState<FormData>({
     plantDescription: '',
     samplingResults: '',
