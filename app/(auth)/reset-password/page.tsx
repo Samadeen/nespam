@@ -1,9 +1,68 @@
+'use client';
+
+import { useState } from 'react';
 import AuthLayout from '@/components/auth-layout';
 import Button from '@/components/button';
 import logo from '@/public/assets/logo.svg';
 import Image from 'next/image';
+import { useAuth } from '@/context/auth-context';
+import { toast } from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation';
+
+interface ResetPasswordForm {
+  password: string;
+  confirm_password: string;
+}
 
 const ResetPassword = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<ResetPasswordForm>({
+    password: '',
+    confirm_password: '',
+  });
+  const { resetPassword } = useAuth();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!token) {
+      toast.error('Invalid reset token');
+      return;
+    }
+
+    if (formData.password !== formData.confirm_password) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast.error('Password must be at least 8 characters long');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await resetPassword({
+        token,
+        password: formData.password,
+        confirm_password: formData.confirm_password,
+      });
+      toast.success('Password reset successful');
+    } catch (error) {
+      toast.error('Failed to reset password');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <AuthLayout>
       <div className='border border-neutral-300 bg-white rounded-[1.25rem] border-solid w-[33.75rem] mx-auto py-12 px-[4.5rem]'>
@@ -13,27 +72,38 @@ const ResetPassword = () => {
             Reset Password
           </h1>
 
-          <form action='' className='flex flex-col gap-3 mt-4 w-full'>
+          <form
+            onSubmit={handleSubmit}
+            className='flex flex-col gap-3 mt-4 w-full'
+          >
             <label htmlFor='password' className='class-label'>
-              New Password
+              New Password <span className='text-red-500'>*</span>
               <input
                 type='password'
                 name='password'
                 id='password'
-                className='class-input'
+                className='class-input mt-1'
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength={8}
               />
             </label>
 
-            <label htmlFor='confirm-password' className='class-label'>
-              Re-enter Password
+            <label htmlFor='confirm_password' className='class-label'>
+              Re-enter Password <span className='text-red-500'>*</span>
               <input
                 type='password'
-                name='confirm-password'
-                id='confirm-password'
-                className='class-input'
+                name='confirm_password'
+                id='confirm_password'
+                className='class-input mt-1'
+                value={formData.confirm_password}
+                onChange={handleChange}
+                required
+                minLength={8}
               />
             </label>
-            <Button className='w-full mt-2' text='Save' />
+            <Button className='w-full mt-2' text='Save' disabled={isLoading} />
           </form>
         </div>
       </div>
