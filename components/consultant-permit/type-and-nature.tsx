@@ -10,7 +10,12 @@ interface FormData {
   permitHistory: string;
 }
 
-const TypeAndNature = () => {
+interface TypeAndNatureProps {
+  onProceed: () => void;
+  onReturn: () => void;
+}
+
+const TypeAndNature = ({ onProceed, onReturn }: TypeAndNatureProps) => {
   const [formData, setFormData] = useState<FormData>({
     applicationState: '',
     existingPermit: '',
@@ -92,11 +97,14 @@ const TypeAndNature = () => {
         />
 
         <div className='flex justify-between mt-8'>
-          <button className='px-8 py-3 border border-[#3E8290] text-[#3E8290] rounded-lg hover:bg-gray-50'>
+          <button
+            onClick={onReturn}
+            className='px-8 py-3 border border-[#3E8290] text-[#3E8290] rounded-lg hover:bg-gray-50'
+          >
             Return
           </button>
           <button
-            onClick={() => console.log(formData)}
+            onClick={onProceed}
             disabled={!Object.values(formData).every(Boolean)}
             className='px-8 py-3 bg-[#3E8290] text-white rounded-lg hover:bg-[#357381] disabled:opacity-50 disabled:cursor-not-allowed'
           >
