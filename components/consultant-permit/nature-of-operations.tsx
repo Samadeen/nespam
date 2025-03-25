@@ -26,7 +26,12 @@ interface UploadField {
   previewUrl: string | null;
 }
 
-const NatureOfOperations = () => {
+interface NatureOfOperationsProps {
+  onProceed: () => void;
+  onReturn: () => void;
+}
+
+const NatureOfOperations = ({ onProceed, onReturn }: NatureOfOperationsProps) => {
   const [formData, setFormData] = useState<FormData>({
     plantDescription: '',
     samplingResults: '',
@@ -593,12 +598,14 @@ const NatureOfOperations = () => {
           <button
             className='px-8 py-3 border border-[#3E8290] text-[#3E8290] rounded-lg hover:bg-gray-50'
             disabled={Object.values(uploads).some((upload) => upload.isLoading)}
+            onClick={onReturn}
           >
             Return
           </button>
           <button
             className='px-8 py-3 bg-[#3E8290] text-white rounded-lg hover:bg-[#357381]'
             disabled={Object.values(uploads).some((upload) => upload.isLoading)}
+            onClick={onProceed}
           >
             Proceed
           </button>
