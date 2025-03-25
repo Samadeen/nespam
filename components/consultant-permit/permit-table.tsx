@@ -24,7 +24,11 @@ interface PermitData {
   status: string;
 }
 
-const PermitTable = () => {
+interface PermitTableProps {
+  onAdd: () => void;
+}
+
+const PermitTable = ({ onAdd }: PermitTableProps) => {
   const [sortField, setSortField] = useState<SortField>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
@@ -87,19 +91,22 @@ const PermitTable = () => {
               List of all permit applications
             </p>
           </div>
-          <div className='flex items-center gap-6 '>
+          <div className='flex items-center gap-6'>
             <div className='flex items-center gap-2 cursor-pointer'>
               <Image src={filterIcon} alt='filter' />
               <span className='text-[#3E8290] text-sm not-italic font-medium leading-[normal]'>
                 Filter
               </span>
             </div>
-            <div className='flex items-center gap-2 cursor-pointer bg-[#3E8290] rounded-lg px-4 py-2'>
+            <button
+              onClick={onAdd}
+              className='flex items-center gap-2 cursor-pointer bg-[#3E8290] rounded-lg px-4 py-2'
+            >
               <Plus className='text-[#fff]' />
               <span className='text-[#fff] text-sm not-italic font-medium leading-[normal]'>
                 Apply
               </span>
-            </div>
+            </button>
           </div>
         </div>
         <div className='mt-1 w-full overflow-x-auto'>
