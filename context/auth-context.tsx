@@ -54,6 +54,12 @@ interface LoginResponse {
   session_id: string;
 }
 
+interface ResetPasswordPayload {
+  token: string;
+  password: string;
+  confirm_password: string;
+}
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -62,7 +68,7 @@ interface AuthContextType {
   login: (payload: LoginPayload) => Promise<void>;
   logout: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
-  resetPassword: (token: string, newPassword: string) => Promise<void>;
+  resetPassword: (payload: ResetPasswordPayload) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -166,7 +172,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const forgotPassword = async (email: string) => {
     try {
       setError(null);
-      await api.post('/auth/forgot-password', { email });
+      await api.post('/api/forgot-user-password', { email });
       toast.success('Reset email sent successfully');
       router.push('/reset-password');
     } catch (err) {
@@ -177,10 +183,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const resetPassword = async (token: string, newPassword: string) => {
+  const resetPassword = async (payload: ResetPasswordPayload) => {
     try {
       setError(null);
-      await api.post('/auth/reset-password', { token, newPassword });
+      await api.post('/auth/reset-password', payload);
       toast.success('Password reset successful');
       router.push('/login');
     } catch (err) {
