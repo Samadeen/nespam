@@ -10,7 +10,15 @@ interface FormData {
   permitType: string;
 }
 
-const PermitApplications = () => {
+interface PermitApplicationsProps {
+  onProceed: () => void;
+  onReturn: () => void;
+}
+
+const PermitApplications = ({
+  onProceed,
+  onReturn,
+}: PermitApplicationsProps) => {
   const [formData, setFormData] = useState<FormData>({
     company: '',
     facility: '',
@@ -108,7 +116,7 @@ const PermitApplications = () => {
 
         <div className='flex justify-end'>
           <button
-            onClick={handleSubmit}
+            onClick={onProceed}
             disabled={!Object.values(formData).every(Boolean)}
             className='px-8 py-3 bg-[#3E8290] text-white rounded-lg hover:bg-[#357381] disabled:opacity-50 disabled:cursor-not-allowed'
           >
