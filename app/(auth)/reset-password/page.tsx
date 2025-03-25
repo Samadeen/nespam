@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import AuthLayout from '@/components/auth-layout';
 import Button from '@/components/button';
 import logo from '@/public/assets/logo.svg';
@@ -14,7 +14,8 @@ interface ResetPasswordForm {
   confirm_password: string;
 }
 
-const ResetPassword = () => {
+// Create a separate component for the form content
+const ResetPasswordForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +65,49 @@ const ResetPassword = () => {
   };
 
   return (
+    <form onSubmit={handleSubmit} className='flex flex-col gap-3 mt-4 w-full'>
+      <label htmlFor='password' className='class-label'>
+        New Password <span className='text-red-500'>*</span>
+        <input
+          type='password'
+          name='password'
+          id='password'
+          className='class-input mt-1'
+          value={formData.password}
+          onChange={handleChange}
+          required
+          minLength={8}
+        />
+      </label>
+
+      <label htmlFor='confirm_password' className='class-label'>
+        Re-enter Password <span className='text-red-500'>*</span>
+        <input
+          type='password'
+          name='confirm_password'
+          id='confirm_password'
+          className='class-input mt-1'
+          value={formData.confirm_password}
+          onChange={handleChange}
+          required
+          minLength={8}
+        />
+      </label>
+      <Button className='w-full mt-2' text='Save' disabled={isLoading} />
+    </form>
+  );
+};
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className='flex justify-center items-center p-4'>
+    <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-[#3E8290]'></div>
+  </div>
+);
+
+// Main component
+const ResetPassword = () => {
+  return (
     <AuthLayout>
       <div className='border border-neutral-300 bg-white rounded-[1.25rem] border-solid w-[33.75rem] mx-auto py-12 px-[4.5rem]'>
         <div className='flex flex-col items-center justify-center'>
@@ -72,39 +116,9 @@ const ResetPassword = () => {
             Reset Password
           </h1>
 
-          <form
-            onSubmit={handleSubmit}
-            className='flex flex-col gap-3 mt-4 w-full'
-          >
-            <label htmlFor='password' className='class-label'>
-              New Password <span className='text-red-500'>*</span>
-              <input
-                type='password'
-                name='password'
-                id='password'
-                className='class-input mt-1'
-                value={formData.password}
-                onChange={handleChange}
-                required
-                minLength={8}
-              />
-            </label>
-
-            <label htmlFor='confirm_password' className='class-label'>
-              Re-enter Password <span className='text-red-500'>*</span>
-              <input
-                type='password'
-                name='confirm_password'
-                id='confirm_password'
-                className='class-input mt-1'
-                value={formData.confirm_password}
-                onChange={handleChange}
-                required
-                minLength={8}
-              />
-            </label>
-            <Button className='w-full mt-2' text='Save' disabled={isLoading} />
-          </form>
+          <Suspense fallback={<LoadingFallback />}>
+            <ResetPasswordForm />
+          </Suspense>
         </div>
       </div>
     </AuthLayout>
