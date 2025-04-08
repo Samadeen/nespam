@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import CapacityAndExperience from '@/components/consultant-permit/capacity-and-experience';
-import NatureOfOperations from '@/components/consultant-permit/nature-of-operations';
-import OpenBurning from '@/components/consultant-permit/open-burning';
-import PermitTable from '@/components/consultant-permit/permit-table';
-import TypeAndNature from '@/components/consultant-permit/type-and-nature';
-import PermitApplications from '@/components/consultant-permit/permit-application';
+import CapacityAndExperience from '@/components/consultant/consultant-permit/capacity-and-experience';
+import NatureOfOperations from '@/components/consultant/consultant-permit/nature-of-operations';
+import OpenBurning from '@/components/consultant/consultant-permit/open-burning';
+import PermitTable from '@/components/consultant/consultant-permit/permit-table';
+import TypeAndNature from '@/components/consultant/consultant-permit/type-and-nature';
+import PermitApplications from '@/components/consultant/consultant-permit/permit-application';
 
 type Step = 1 | 2 | 3 | 4 | 5;
 
@@ -41,24 +41,26 @@ const PermitApplication = () => {
         return (
           <TypeAndNature onProceed={handleProceed} onReturn={handleReturn} />
         );
-      case 2:
+      case 3:
         return (
           <CapacityAndExperience
             onProceed={handleProceed}
             onReturn={handleReturn}
           />
         );
-      case 3:
+      case 4:
         return (
           <NatureOfOperations
             onProceed={handleProceed}
             onReturn={handleReturn}
           />
         );
-      case 4:
+      case 5:
         return (
           <OpenBurning onProceed={handleProceed} onReturn={handleReturn} />
         );
+      default:
+        return null;
     }
   };
 
