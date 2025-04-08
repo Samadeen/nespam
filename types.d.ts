@@ -51,3 +51,18 @@ interface ConsultantDetailsPayload {
   fax_number: string;
   created_by: string;
 }
+
+interface CompanyDetailsPayload {
+  user_id: string;
+  fullname: string;
+  state: string;
+  lga: string;
+  city: string;
+  website_url: string;
+  legal_status: string;
+  office_address: string;
+  phone_number: string;
+  nature_of_business: string;
+  fax_number: string;
+  created_by: string;
+}
