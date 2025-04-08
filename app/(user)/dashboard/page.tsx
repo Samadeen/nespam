@@ -2,12 +2,12 @@
 
 import { formatDate } from '@/utils/format-date';
 import { useState } from 'react';
-import DashboardTable from '@/components/consultant-registration/dashboard-table';
+import DashboardTable from '@/components/consultant/consultant-registration/dashboard-table';
 import Link from 'next/link';
-import ConsultantDetails from '@/components/consultant-registration/consultant-details';
-import DocumentUploads from '@/components/consultant-registration/document-uploads';
-import Services from '@/components/consultant-registration/services';
-import ContactProfile from '@/components/consultant-registration/contact-profile';
+import ConsultantDetails from '@/components/consultant/consultant-registration/consultant-details';
+import DocumentUploads from '@/components/consultant/consultant-registration/document-uploads';
+import Services from '@/components/consultant/consultant-registration/services';
+import ContactProfile from '@/components/consultant/consultant-registration/contact-profile';
 import { useAuth } from '@/context/auth-context';
 
 type Step = 1 | 2 | 3 | 4;
