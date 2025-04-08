@@ -65,7 +65,7 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className='flex flex-col bg-[#254D55] border-r-[#BFBFBF] border-r border-solid w-[18rem] fixed z-[500] lg:absolute h-screen p-6 inset-x-0'>
+    <div className='flex flex-col bg-[#254D55] border-r-[#BFBFBF] border-r border-solid w-[19rem] fixed z-[500] lg:absolute h-screen p-6 inset-x-0'>
       <div className='flex items-center justify-center border-b border-neutral-300 pb-4 gap-2 mb-2'>
         <Image src={logo} alt='logo' className='' />
       </div>
